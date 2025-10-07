@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Foundations Before Frameworks</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <!-- UPP helpers -->
+  <link rel="preconnect" href="https://example-cdn.test">
+  <link rel="preload" as="image" href="assets/dev-black.jpg" imagesrcset="assets/dev-black.jpg 1200w">
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- Progressive enhancement: load JS late -->
+  <script defer type="module" src="app.js"></script>
+
+  <!-- Optional: targeted polyfills at runtime (teach the trade-offs) -->
+  <!-- <script src="https://polyfill.io/v3/polyfill.min.js?features=Array.prototype.includes,Promise"></script> -->
+  
+</head>
+<body>
+  <header class="site-header">
+    <h1>Foundations Before Frameworks</h1>
+    <nav class="tabs">
+      <a href="#home" data-route>Home (MPA-ish)</a>
+      <a href="#spa" data-route>SPA View</a>
+      <a href="#rendering" data-route>Rendering</a>
+      <a href="#compat" data-route>Compatibility</a>
+      <a href="#perf" data-route>Performance</a>
+    </nav>
+  </header>
+
+  <!-- “MPA-ish” section: pre-rendered HTML exists without JS -->
+  <main id="app" class="container">
+    <section id="home" data-view class="view is-active">
+      <h2>Welcome</h2>
+      <p>This page renders useful content even if JavaScript is off (progressive enhancement). JS will enhance navigation and interactivity.</p>
+
+      <figure class="hero">
+        <img src="assets/dev-black.jpg" alt="Abstract web shapes" decoding="async" loading="lazy" />
+        <figcaption>Static content, lazy-loaded image.</figcaption>
+      </figure>
+
+      <details>
+        <summary>What you'll see today</summary>
+        <ul>
+          <li>SPA vs MPA navigation demo</li>
+          <li>CSR vs pre-rendered HTML</li>
+          <li>Cross-browser fallbacks & polyfills</li>
+          <li>User-Perceived Performance (LCP/INP/CLS)</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- SPA view: client-side “routing” swaps content without page reload -->
+    <section id="spa" data-view class="view" hidden>
+      <h2>SPA View (Client-side Routing)</h2>
+      <p>Switching sections here does not reload the document—only the content region updates.</p>
+
+      <div class="cards" role="list">
+        <article class="card" role="listitem">
+          <h3>Stateful UI</h3>
+          <p>State lives in JS; updates without full navigations.</p>
+          <button data-increment>Clicks: <span>0</span></button>
+        </article>
+
+        <article class="card" role="listitem">
+          <h3>Fetch + Hydrate</h3>
+          <p>Simulated API fetch and client render.</p>
+          <button id="load-posts">Load Posts</button>
+          <ul id="posts" class="list"></ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Rendering models -->
+    <section id="rendering" data-view class="view" hidden>
+      <h2>Rendering Models</h2>
+      <div class="grid">
+        <div class="panel">
+          <h3>CSR (Client-Side Rendering)</h3>
+          <p>HTML shell + JS fetch + render in browser.</p>
+          <small>MDN framework intro; SSR vs CSR overview. </small>
+          <p class="ref">Refs: MDN + Next docs</p>
+        </div>
+        <div class="panel">
+          <h3>SSR (Server-Side Rendering)</h3>
+          <p>Server renders HTML per request—great first paint & personalization.</p>
+          <p class="ref">Refs: MDN SSR, Next Static vs Dynamic</p>
+        </div>
+        <div class="panel">
+          <h3>SSG / ISR / PPR</h3>
+          <p>Build-time HTML; optionally revalidate or partially prerender dynamic bits.</p>
+          <p class="ref">Refs: Next SSG/ISR/PPR</p>
+        </div>
+      </div>
+
+      <blockquote class="note">
+        Try turning off JS: Home content still works (SSG/MPA-style).
+      </blockquote>
+    </section>
+
+    <!-- Compatibility -->
+    <section id="compat" data-view class="view" hidden>
+      <h2>Cross-Browser Compatibility</h2>
+      <p>This grid uses modern CSS Grid. If Grid is unsupported, we fallback to Flexbox via @supports.</p>
+      <div class="compat-demo">
+        <div class="compat-item">1</div>
+        <div class="compat-item">2</div>
+        <div class="compat-item">3</div>
+        <div class="compat-item">4</div>
+      </div>
+
+      <h3>Feature Detection</h3>
+      <pre><code>if (!('includes' in Array.prototype)) { /* load polyfill */ }</code></pre>
+
+      <button id="polyfill-test">Test Array.includes()</button>
+      <p id="polyfill-output" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- Performance -->
+    <section id="perf" data-view class="view" hidden>
+      <h2>User-Perceived Performance</h2>
+      <ul>
+        <li><strong>LCP</strong>: biggest thing paints fast</li>
+        <li><strong>INP</strong>: inputs react quickly</li>
+        <li><strong>CLS</strong>: layout doesn’t jump</li>
+      </ul>
+      <p><button id="simulate-work">Simulate Heavy Work (bad!)</button></p>
+      <div id="perf-log" class="log" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>© Web Development Frameworks • Foundations Before Frameworks</small>
+  </footer>
+</body>
+</html>
