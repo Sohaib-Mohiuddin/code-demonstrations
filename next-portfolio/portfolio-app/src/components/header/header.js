@@ -106,13 +106,13 @@ function Header(props) {
   );
 }
 
-Header.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
-  window: PropTypes.func,
-};
+// Header.propTypes = {
+//   /**
+//    * Injected by the documentation to work in an iframe.
+//    * You won't need it on your project.
+//    */
+//   window: PropTypes.func,
+// };
 
 export default Header;
 
@@ -121,7 +121,7 @@ export default Header;
 // export default function Header() {
 //     return (
 //         <>
-//         <h1>This is my header</h1>
+//         <h1>This is my new header</h1>
 //         </>
 //     )
 // }

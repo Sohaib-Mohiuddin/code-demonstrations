@@ -8,7 +8,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    console.log("hello")
+    console.log("hello this is a small change")
   }, []);
 
 
