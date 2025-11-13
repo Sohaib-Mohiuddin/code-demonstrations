@@ -1,0 +1,56 @@
+services:
+  my-strapi-project:
+    build: .
+    container_name: my-strapi-project
+    working_dir: /app
+    command: npm run develop
+    ports:
+      - "1337:1337"      # Strapi server
+    environment:
+      - NODE_ENV=development
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=strapi
+      - DATABASE_PASSWORD=strapi
+      - HOST=0.0.0.0
+      - PORT=1337
+      - APP_KEYS=toBeModified1,toBeModified2
+      - API_TOKEN_SALT=tobemodified
+      - ADMIN_JWT_SECRET=tobemodified
+      - TRANSFER_TOKEN_SALT=tobemodified
+      - JWT_SECRET=tobemodified
+    volumes:
+      - .:/app           # mount source for live edit
+      - node_modules:/app/node_modules
+      - strapi_uploads:/app/public/uploads
+    networks:
+      - strapi_network
+    depends_on:
+      - postgres
+    tty: true            # keep logs interactive
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: strapi-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=strapi
+      - POSTGRES_USER=strapi
+      - POSTGRES_PASSWORD=strapi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - strapi_network
+
+networks:
+  strapi_network:
+    driver: bridge
+
+volumes:
+  node_modules:
+  postgres_data:
+  strapi_uploads:

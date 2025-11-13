@@ -1,0 +1,83 @@
+############################
+# OS Files
+############################
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+.Spotlight-V100
+.Trashes
+._*
+*~
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+############################
+# Node.js
+############################
+
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn/*
+!.yarn/cache
+!.yarn/unplugged
+!.yarn/patches
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
+
+############################
+# Logs and databases
+############################
+
+*.log
+*.sql
+*.sqlite
+*.sqlite3
+.tmp
+
+############################
+# Development
+############################
+
+.git
+.gitignore
+.idea
+.vscode
+nbproject
+.eslintcache
+.tsbuildinfo
+
+############################
+# Strapi
+############################
+
+.env
+.strapi-updater.json
+.strapi-cloud.json
+build
+dist
+exports
+coverage
+
+############################
+# Docker
+############################
+
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+############################
+# Documentation
+############################
+
+README.md
+*.md
