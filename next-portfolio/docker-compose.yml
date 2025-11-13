@@ -1,0 +1,80 @@
+services:
+  # Strapi CMS Backend
+  strapi:
+    build: ./my-strapi-project
+    container_name: my-strapi-project
+    working_dir: /app
+    command: npm run develop
+    ports:
+      - "1337:1337"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_CLIENT=postgres
+      - DATABASE_HOST=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=strapi
+      - DATABASE_USERNAME=strapi
+      - DATABASE_PASSWORD=strapi
+      - HOST=0.0.0.0
+      - PORT=1337
+      - APP_KEYS=toBeModified1,toBeModified2
+      - API_TOKEN_SALT=tobemodified
+      - ADMIN_JWT_SECRET=tobemodified
+      - TRANSFER_TOKEN_SALT=tobemodified
+      - JWT_SECRET=tobemodified
+    volumes:
+      - ./my-strapi-project:/app
+      - strapi_node_modules:/app/node_modules
+      - strapi_uploads:/app/public/uploads
+    networks:
+      - portfolio_stack
+    depends_on:
+      - postgres
+    tty: true
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    container_name: strapi-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=strapi
+      - POSTGRES_USER=strapi
+      - POSTGRES_PASSWORD=strapi
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - portfolio_stack
+
+  # Next.js Frontend
+  portfolio-app:
+    build: ./portfolio-app
+    container_name: portfolio-app
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_TELEMETRY_DISABLED=1
+      - STRAPI_API_URL=http://strapi:1337/api/
+    volumes:
+      - ./portfolio-app:/app
+      - portfolio_node_modules:/app/node_modules
+    networks:
+      - portfolio_stack
+    depends_on:
+      - strapi
+    tty: true
+
+networks:
+  portfolio_stack:
+    driver: bridge
+
+volumes:
+  strapi_node_modules:
+  portfolio_node_modules:
+  postgres_data:
+  strapi_uploads:
